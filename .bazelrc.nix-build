@@ -1,0 +1,3 @@
+# Keep in sync with .bazelrc
+
+build --cxxopt='--std=c++17'

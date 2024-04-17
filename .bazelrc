@@ -1,0 +1,6 @@
+# Keep in sync with .bazelrc.nix-build
+
+build --host_platform=@io_tweag_rules_nixpkgs//nixpkgs/platforms:host
+build --crosstool_top=@nixpkgs_config_cc//:toolchain
+
+build --cxxopt='--std=c++17'
