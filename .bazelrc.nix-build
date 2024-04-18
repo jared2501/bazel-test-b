@@ -1,3 +1,4 @@
-# Keep in sync with .bazelrc
+# Keep in sync with .bazelrc.nix-build
 
 build --cxxopt='--std=c++17'
+common --experimental_enable_bzlmod

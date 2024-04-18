@@ -8,18 +8,19 @@
     flake-utils.lib.eachDefaultSystem (system:
       let
         pkgs = import nixpkgs { inherit system; };
-        bazel = pkgs.bazel_5;
+        bazel = pkgs.bazel_6;
+        buildInputs = pkgs.lib.optional pkgs.stdenv.isDarwin pkgs.darwin.cctools;
         nativeBuildInputs = with pkgs; [
           git
           installShellFiles
           python3
-          libtool
         ];
       in 
       {
         packages = {
           default = pkgs.buildBazelPackage {
             inherit bazel;
+            inherit buildInputs;
             inherit nativeBuildInputs;
             pname = "bazel-test-b";
             version = "HEAD";
@@ -28,17 +29,18 @@
             BAZEL_USE_CPP_ONLY_TOOLCHAIN = "1";
             # for nixpkgs cc wrappers, select C++ explicitly (see https://github.com/NixOS/nixpkgs/issues/150655)
             BAZEL_CXXOPTS = "-x:c++";
-            removeRulesCC = false;
-            bazelTargets = [ "//src:test-b" ];
+            dontAddBazelOpts = true;
+            bazelTargets = [ "//:test-b" ];
             fetchAttrs = {
-              sha256 = "sha256-0mwYtVTn55ahR9sEfSnfSXLFc/wKggwt3Ji2vfyJyHd=";
+              sha256 = "sha256-earE4hno0r+AmY3vFUpWoO5wmR+/C/wYO/Amycgcw+Q=";
             };
             buildAttrs = {
               preBuild = ''
                 mv .bazelrc.nix-build .bazelrc
               '';
+              # TODO(jnewman): figure out what to copy.. .a files? .dylib files? surely nix has a helper?
               installPhase = ''
-                install -Dm755 bazel-bin/src/hello-world $out/bin/hello-world
+                mkdir $out
               '';
             };
           };

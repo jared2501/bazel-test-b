@@ -1,0 +1,7 @@
+module(
+  name = "bazel-test-b",
+  version = "1.0",
+)
+
+bazel_dep(name = "rules_nixpkgs_core", version = "0.11.1")
+# bazel_dep(name = "glog", version = "0.5.0", repo_name = "com_github_google_glog")
