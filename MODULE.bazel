@@ -1,6 +1,6 @@
 module(
   name = "bazel-test-b",
-  version = "1.0",
+  version = "1.2.0",
 )
 
 bazel_dep(name = "rules_nixpkgs_core", version = "0.11.1")
